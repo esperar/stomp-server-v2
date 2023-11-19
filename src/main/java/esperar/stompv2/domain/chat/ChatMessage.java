@@ -38,4 +38,14 @@ public class ChatMessage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_room_id")
     private ChatRoom chatRoom;
+
+    public static ChatMessage of(String message, LocalDateTime sendTime, User sender, User receiver, ChatRoom chatRoom) {
+        return ChatMessage.builder()
+                .message(message)
+                .sendTime(sendTime)
+                .sender(sender)
+                .receiver(receiver)
+                .chatRoom(chatRoom)
+                .build();
+    }
 }

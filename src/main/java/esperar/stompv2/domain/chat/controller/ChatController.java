@@ -1,10 +1,13 @@
 package esperar.stompv2.domain.chat.controller;
 
+import esperar.stompv2.domain.chat.dto.ChatDto;
+import esperar.stompv2.domain.chat.service.ChatService;
 import esperar.stompv2.domain.room.dto.ChatRoomDto;
 import esperar.stompv2.domain.room.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +21,13 @@ public class ChatController {
 
     private final SimpMessagingTemplate messagingTemplate;
     private final ChatRoomService chatRoomService;
+    private final ChatService chatService;
+
+    @MessageMapping("/send")
+    public void sendMessage(ChatDto.SendMessageRequest request) {
+        chatService.sendMessage(request);
+        messagingTemplate.convertAndSend("/topic/chat" + request.getReceiverId(), request);
+    }
 
     @PostMapping("/room")
     public ResponseEntity<Void> createChatRoom(@RequestBody ChatRoomDto.Request request) {
