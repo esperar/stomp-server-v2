@@ -2,7 +2,10 @@ package esperar.stompv2.domain.chat;
 
 import esperar.stompv2.domain.room.ChatRoom;
 import esperar.stompv2.domain.user.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -11,6 +14,9 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @DynamicInsert
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
